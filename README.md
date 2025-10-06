@@ -114,7 +114,7 @@ The API will be available at `http://localhost:8000`
 
 ## Key Components
 
-1. **1`src/db.py`**: Database operations 
+1. **`src/db.py`**: Database operations 
     -Handles all CRUD operations with Supabase
 
 2. **`src/logic.py`**: Business logic 

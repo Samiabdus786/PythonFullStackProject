@@ -9,34 +9,53 @@ key = os.getenv("SUPABASE_KEY")
 
 supabase = create_client(url, key)
 
-# Create item
-def create_item(item_name, category, quantity, purchase_date, expiry_date):
-    response = supabase.table("items").insert({
-        "item_name": item_name,
-        "category": category,
-        "quantity": quantity,
-        "purchase_date": purchase_date,
-        "expiry_date": expiry_date
-    }).execute()
-    return response.data
+class DatabaseManager:
+    """
+    Handles all database operations with Supabase.
+    """
 
+    # CREATE
+    def create_item(self, item_name, category, quantity, purchase_date, expiry_date):
+        try:
+            response = supabase.table("items").insert({
+                "item_name": item_name,
+                "category": category,
+                "quantity": quantity,
+                "purchase_date": purchase_date,
+                "expiry_date": expiry_date
+            }).execute()
+            return {"Success": True, "Data": response.data}
+        except Exception as e:
+            return {"Success": False, "Message": str(e)}
 
-# Read (Fetch all items, latest first)
-def get_items():
-    response = supabase.table("items").select("*").order("created_at", desc=True).execute()
-    return response.data
+    # READ ALL
+    def get_all_items(self):
+        try:
+            response = supabase.table("items").select("*").order("created_at", desc=True).execute()
+            return response.data
+        except Exception as e:
+            return {"Success": False, "Message": str(e)}
 
-# Read (Fetch a single item by its ID)
-def get_item_by_id(item_id: int):
-    response = supabase.table("items").select("*").eq("item_id", item_id).execute()
-    return response.data
+    # READ ONE
+    def get_item_by_id(self, item_id: int):
+        try:
+            response = supabase.table("items").select("*").eq("item_id", item_id).execute()
+            return response.data
+        except Exception as e:
+            return {"Success": False, "Message": str(e)}
 
-# Update (Modify item details by ID)
-def update_item(item_id: int, updates: dict):
-    response = supabase.table("items").update(updates).eq("item_id", item_id).execute()
-    return response.data
+    # UPDATE
+    def update_item(self, item_id: int, updates: dict):
+        try:
+            response = supabase.table("items").update(updates).eq("item_id", item_id).execute()
+            return {"Success": True, "Data": response.data}
+        except Exception as e:
+            return {"Success": False, "Message": str(e)}
 
-# Delete (Remove an item by ID)
-def delete_item(item_id: int):
-    response = supabase.table("items").delete().eq("item_id", item_id).execute()
-    return response.data
+    # DELETE
+    def delete_item(self, item_id: int):
+        try:
+            response = supabase.table("items").delete().eq("item_id", item_id).execute()
+            return {"Success": True, "Data": response.data}
+        except Exception as e:
+            return {"Success": False, "Message": str(e)}
