@@ -28,7 +28,7 @@ def login_page():
 # ------------------------------
 # 2. CONFIG & ITEM IMAGES
 # ------------------------------
-BASE_URL = "http://127.0.0.1:8000"
+BASE_URL = "https://pythonfullstackproject.onrender.com"
 
 st.set_page_config(page_title="PyFoodGuardian", layout="wide")
 
